@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,31 +13,45 @@
 </head>
 <body>
         <div class="container">
-        <div class="jumbotron">
-            <h1 align = "center"><strong>Mission to Mars</strong</h1>
+        <div class="jumbotron text-center">
+            <h1 align = "center"><strong>Mission to Mars</strong></h1>
                 <p align = "center">
                     <a class="btn btn-primary btn lg" href="{{ url_for('scraper') }}" role="button">Scrape New Data</a>
                 </p>
         </div>
         </div>
-
-    <h3>Latest Mars News</h3>
-    {{ mars_data }}
-    <h5>{{mars_data.title}}</h5>
-
-    <p>{{mars_data.paragraph_title}}</p>
-    <br>
-    <h3>Features Mars Image</h3>
-    <img src="{{ mars_data.feature_image }}">
-
-    <h4> Current Weather on Mars </h4>
-    <p></p>
-    <br>
-    <h4> Mars Facts </h4>
-    {{mars_data.mars_html_table}}
-
-    
-    
+     <div class = "row">
+        <div class="col-md-12">
+             <h3>Latest Mars News</h3>
+              <h5>{{mars_data.news_title}}</h5>
+             <p>{{mars_data.news_paragraph}}</p>
+             <br>            
+        </div>
+     </div>
+     <div class = "row">
+        <div class = "col-md-8">
+            <h3>Featured Mars Image</h3>
+            <img src="{{ mars_data.featured_image_url}}"style="width: 80%;"/>
+        </div>
+        <div class = "col-md-4">
+            <h4> Current Weather on Mars </h4>
+            <p>{{ mars_data.latest_weather}}</p>
+            <br>
+            <h4> Mars Facts </h4>
+            <p>{{mars_data.mars_html_table | safe}}</p>
+        </div>
+        </div>
+        <div class ="row" >
+        <div class = "col-md-12">
+            <h3><b><center>Mars Hemispheres</center></b></h3> 
+            {% for hemisphere in mars_data.hemisphere_img_urls %}
+            
+                <div class = "col-md-6">
+                    <img src = "{{hemisphere['image_url']}}" style="width:50%;">
+                    <h3>{{hemisphere['Title']}}</h3>
+                </div>
+            {% endfor %}
+         </div>
+         </div>
 </body>
-
 </html>

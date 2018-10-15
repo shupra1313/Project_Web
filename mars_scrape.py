@@ -27,7 +27,7 @@ def scrape():
 
     news_title = soup.find('div', class_="content_title").text
     mars_data['news_title'] = news_title
-    news_paragraph = soup.find('div', class_="article_teaser_body")
+    news_paragraph = soup.find('div', class_="article_teaser_body").text
     mars_data['news_paragraph'] = news_paragraph
 
     ############ JPL Mars Space Images - Featured Image ############
@@ -39,13 +39,13 @@ def scrape():
     base_url = "{0.scheme}://{0.netloc}/".format(urlsplit(spaceimage_url))
     # give the browser the url to be visited 
     browser.visit(spaceimage_url)
-    time.sleep(2)
+    
     browser.find_by_id('full_image').click()
+    time.sleep(2)
     # Then the html of that particular path is assigned to a variable 'html'
     html = browser.html
     # Give the html string to be parsed and the corresponding parser and then assign the url string to a variable 'soup'
     soup = BeautifulSoup(html, 'html.parser')
-    time.sleep(2)
     # extract the image url for the current featured mars image and assign the url string to a variable called featured_image_url
     image_url = soup.find('img', class_ = 'fancybox-image')['src']
     featured_image_url = (base_url + image_url)
@@ -66,7 +66,7 @@ def scrape():
         if 'Sol' in tweet.text:
             latest_weather = tweet.text
             break
-    mars_data["weather_tweet"] = latest_weather
+    mars_data["latest_weather"] = latest_weather
 
     ###################### Mars Facts #######################
     
@@ -107,8 +107,10 @@ def scrape():
 
     # The browser object finds the image url by its xpath and clicks on it
     browser.find_by_xpath( "//*[@id='product-section']/div[2]/div[1]/a/img").click()
+    time.sleep(2)
     # on clicking, it takes the browser object to the cerberus enhanced image page and finds the 'Open' button and clicks it
     browser.click_link_by_text("Open")
+    time.sleep(1)
     # Then the html is assigned another variable and BS is used to parse that particular html for the specific element and class
     image = browser.html
     soup = BeautifulSoup(image, "html.parser")
@@ -126,8 +128,10 @@ def scrape():
 
     # The browser object finds the image url by its xpath and clicks on it
     browser.find_by_xpath( "//*[@id='product-section']/div[2]/div[2]/a/img").click()
+    time.sleep(2)
     # on clicking, it takes the browser object to the schiaparelli enhanced image page and finds the 'Open' button and clicks it
     browser.click_link_by_text("Open")
+    time.sleep(1)
     # Then the html is assigned another variable and BS is used to parse that particular html for the specific element and class
     image = browser.html
     soup = BeautifulSoup(image, "html.parser")
@@ -145,8 +149,10 @@ def scrape():
     
     # The browser object finds the image url by its xpath and clicks on it
     browser.find_by_xpath('//*[@id="product-section"]/div[2]/div[3]/a/img').click()
+    time.sleep(2)
     # on clicking, it takes the browser object to the syrtis major enhanced image page and finds the 'Open' button and clicks it
     browser.click_link_by_text("Open")
+    time.sleep(1)
     # Then the html is assigned another variable and BS is used to parse that particular html for the specific element and class
     image = browser.html
     soup = BeautifulSoup(image, "html.parser")
@@ -164,8 +170,10 @@ def scrape():
 
     # The browser object finds the image url by its xpath and clicks on it
     browser.find_by_xpath( "//*[@id='product-section']/div[2]/div[4]/a/img").click()
+    time.sleep(2)
     # on clicking, it takes the browser object to the valles marineris enhanced image page and finds the 'Open' button and clicks it
     browser.click_link_by_text("Open")
+    time.sleep(1)
     # Then the html is assigned another variable and BS is used to parse that particular html for the specific element and class
     image = browser.html
     soup = BeautifulSoup(image, "html.parser")
@@ -176,10 +184,10 @@ def scrape():
     valles_marineris_title = soup.find("h2",class_="title").text
 
     # Append all the 4 titles and image urls to the hemisphere_urls list
-    hemisphere_img_urls.append({"Title":cerberus_title, "image url": cerberus_img_url})
-    hemisphere_img_urls.append({"Title":schiaparelli_title, "image url": schiaparelli_img_url})
-    hemisphere_img_urls.append({"Title":syrtis_major_title, "image url": syrtis_major_img_url})
-    hemisphere_img_urls.append({"Title":valles_marineris_title, "image url": valles_marineris_img_url})
+    hemisphere_img_urls.append({"Title":cerberus_title, "image_url": cerberus_img_url})
+    hemisphere_img_urls.append({"Title":schiaparelli_title, "image_url": schiaparelli_img_url})
+    hemisphere_img_urls.append({"Title":syrtis_major_title, "image_url": syrtis_major_img_url})
+    hemisphere_img_urls.append({"Title":valles_marineris_title, "image_url": valles_marineris_img_url})
     
     mars_data["hemisphere_img_urls"] = hemisphere_img_urls
 
